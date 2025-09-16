@@ -1,0 +1,8 @@
+services:
+  mariadb:
+  wordpress:
+  nginx:
+
+volumes:
+
+networks:
