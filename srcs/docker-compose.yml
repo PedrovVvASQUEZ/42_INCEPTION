@@ -1,3 +1,77 @@
+version: "3.8"
+
+services:
+  mariadb:
+    build: ./mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_root_password
+      - db_password
+
+  wordpress:
+    build: ./wordpress
+    container_name: wordpress
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    networks:
+      - backend
+    volumes:
+      - wp_files:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/db_password
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    networks:
+      - backend
+    ports:
+      - "443:443"
+    volumes:
+      - wp_files:/var/www/html:ro
+      - ./secrets/certs:/etc/ssl/certs:ro
+      - ./secrets/conf:/etc/nginx/conf.d:ro
+
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${DATA_DIR}/db_data
+  wp_files:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${DATA_DIR}/wp_files
+
+networks:
+  backend:
+    driver: bridge
+
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_password:
+    file: ./secrets/db_password.txt
 services:
   mariadb:
   wordpress:
