@@ -1,4 +1,4 @@
-Place secret files here (NOT in git).
+Place secret files h (NOT in git).
 
 - `db_root_password.txt` : root DB password
 - `db_password.txt` : wordpress DB user password
