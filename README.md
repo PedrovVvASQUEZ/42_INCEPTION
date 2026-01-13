@@ -41,3 +41,14 @@ Dockerfile = recette pour créer l'image
 Image = résultat construit (template)
 Conteneur = instance en exécution de l'image (comme une classe vs instance en POO)
 Dans votre projet, vous avez des Dockerfiles pour nginx, WordPress et MariaDB qui vont créer 3 images différentes, chacune lancée comme conteneur via le docker-compose.yml.
+
+
+Commandes utiles:
+
+- docker ps -a				*voir tous les containers en cours d'execution sur mon system*
+- docker top MyContainer	*voir les processus en cours d'execution dans un container*
+- docker stats				*voir toutes les infos sur un container*
+- docker stop MyContainer	*arreter proprement un container*
+- docker kill MyContainer	*arret force d'un container*
+- docker run -p				*mapper les ports entre hote et container*
+- docker 
