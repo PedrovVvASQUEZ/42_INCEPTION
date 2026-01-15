@@ -51,4 +51,7 @@ Commandes utiles:
 - docker stop MyContainer	*arreter proprement un container*
 - docker kill MyContainer	*arret force d'un container*
 - docker run -p				*mapper les ports entre hote et container*
-- docker 
+- docker
+
+
+Pour commencer j'ai besoin de savoir a qui sert chaque fichier du projet. Le docker-compose, les docker files les script.sh etc et comment ils sont relier entre avec leurs rôles

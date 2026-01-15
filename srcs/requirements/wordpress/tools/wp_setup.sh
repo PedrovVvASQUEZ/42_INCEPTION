@@ -13,13 +13,8 @@ fi
 if [ ! -f "$WWW_DIR/wp-config.php" ]; then
   DB_NAME=${WORDPRESS_DB_NAME}
   DB_USER=${WORDPRESS_DB_USER}
-  DB_PASSWORD_FILE=${WORDPRESS_DB_PASSWORD_FILE}
+  DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
   DB_HOST=${WORDPRESS_DB_HOST}
-  if [ -f "$DB_PASSWORD_FILE" ]; then
-    DB_PASSWORD=$(cat $DB_PASSWORD_FILE)
-  else
-    DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-  fi
 
   cat > $WWW_DIR/wp-config.php <<EOF
 <?php
@@ -65,25 +60,16 @@ if [ -x /usr/local/bin/wp ]; then
   cd $WWW_DIR
   if ! wp core is-installed --allow-root >/dev/null 2>&1; then
     ADMIN_USER=${WORDPRESS_ADMIN_USER}
-    ADMIN_PASS_FILE=${WORDPRESS_ADMIN_PASSWORD_FILE}
+    ADMIN_PASS=${WORDPRESS_ADMIN_PASSWORD}
     ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
     SITE_URL=${DOMAIN_NAME}
-    if [ -f "$ADMIN_PASS_FILE" ]; then
-      ADMIN_PASS=$(cat $ADMIN_PASS_FILE)
-    else
-      ADMIN_PASS=${WORDPRESS_ADMIN_PASSWORD}
-    fi
+    
     wp core install --url="${SITE_URL}" --title="My WP Site" --admin_user="${ADMIN_USER}" --admin_password="${ADMIN_PASS}" --admin_email="${ADMIN_EMAIL}" --allow-root
 
     # create second user
     if [ -n "${WORDPRESS_USER2}" ]; then
-      USER2_PASS_FILE=${WORDPRESS_USER2_PASSWORD_FILE}
+      USER2_PASS=${WORDPRESS_USER2_PASSWORD}
       USER2_EMAIL=${WORDPRESS_USER2_EMAIL}
-      if [ -f "$USER2_PASS_FILE" ]; then
-        USER2_PASS=$(cat $USER2_PASS_FILE)
-      else
-        USER2_PASS=${WORDPRESS_USER2_PASSWORD}
-      fi
       wp user create ${WORDPRESS_USER2} ${USER2_EMAIL} --user_pass=${USER2_PASS} --role=editor --allow-root || true
     fi
   fi
