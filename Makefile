@@ -1,6 +1,9 @@
 COMPOSE_FILE=./srcs/docker-compose.yml
+DATA_DIR=/home/pgrellie/data
 
 build:
+	mkdir -p $(DATA_DIR)/mariadb
+	mkdir -p $(DATA_DIR)/wordpress
 	docker compose -f $(COMPOSE_FILE) build --pull=false
 
 up: build
@@ -13,6 +16,7 @@ logs:
 	docker compose -f $(COMPOSE_FILE) logs -f
 
 clean: down
-	sudo rm -rf $(shell grep device -n srcs/docker-compose.yml | awk -F":" '{print $$1}') || true
+	sudo rm -rf $(DATA_DIR)/mariadb/*
+	sudo rm -rf $(DATA_DIR)/wordpress/*
 
 .PHONY: build up down logs clean
