@@ -68,4 +68,8 @@ Résumé parfait :
 
 Dockerfile = "Installe MySQL"
 Script .sh = "Configure MySQL avec tel user, telle DB, tel mot de passe"
-Tu as tout compris ! 🎯
+
+
+Différence clé :
+HTML statique : page.html → même contenu pour tout le monde
+PHP dynamique : page.php → contenu différent selon l'utilisateur, la DB, etc.
