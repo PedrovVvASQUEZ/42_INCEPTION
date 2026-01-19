@@ -1,6 +1,6 @@
 services:
   mariadb:
-    build: ./mariadb
+    build: ./requirements/mariadb
     container_name: mariadb
     restart: unless-stopped
     networks:
@@ -14,7 +14,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   wordpress:
-    build: ./wordpress
+    build: ./requirements/wordpress
     container_name: wordpress
     restart: unless-stopped
     depends_on:
@@ -37,7 +37,7 @@ services:
       DOMAIN_NAME: ${DOMAIN_NAME}
 
   nginx:
-    build: ./nginx
+    build: ./requirements/nginx
     container_name: nginx
     restart: unless-stopped
     depends_on:
@@ -48,8 +48,6 @@ services:
       - "443:443"
     volumes:
       - wp_files:/var/www/html:ro
-      - ./secrets/certs:/etc/ssl/certs:ro
-      - ./secrets/conf:/etc/nginx/conf.d:ro
 
 volumes:
   db_data:

@@ -2,7 +2,7 @@
 set -e
 
 WWW_DIR=/var/www/html
-if [ ! -d "$WWW_DIR/index.php" ] && [ -z "$(ls -A $WWW_DIR)" ]; then
+if [ ! -f "$WWW_DIR/index.php" ] && [ -z "$(ls -A $WWW_DIR)" ]; then
   echo "Downloading WordPress..."
   wget -q https://wordpress.org/latest.tar.gz -O /tmp/wp.tar.gz
   tar -xzf /tmp/wp.tar.gz -C /tmp
@@ -64,7 +64,7 @@ if [ -x /usr/local/bin/wp ]; then
     ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
     SITE_URL=${DOMAIN_NAME}
     
-    wp core install --url="${SITE_URL}" --title="My WP Site" --admin_user="${ADMIN_USER}" --admin_password="${ADMIN_PASS}" --admin_email="${ADMIN_EMAIL}" --allow-root
+    wp core install --url="${SITE_URL}" --title="${WP_TITLE:-My WP Site}" --admin_user="${ADMIN_USER}" --admin_password="${ADMIN_PASS}" --admin_email="${ADMIN_EMAIL}" --allow-root
 
     # create second user
     if [ -n "${WORDPRESS_USER2}" ]; then
