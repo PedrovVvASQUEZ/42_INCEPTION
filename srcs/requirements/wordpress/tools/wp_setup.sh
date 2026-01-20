@@ -2,11 +2,20 @@
 set -e
 
 WWW_DIR=/var/www/html
-if [ ! -f "$WWW_DIR/index.php" ] && [ -z "$(ls -A $WWW_DIR)" ]; then
+
+# Create php-fpm run directory
+mkdir -p /run/php
+chown -R www-data:www-data /run/php
+
+# Download WordPress if not present
+if [ ! -f "$WWW_DIR/index.php" ]; then
   echo "Downloading WordPress..."
+  # Clean directory first
+  rm -rf $WWW_DIR/*
   wget -q https://wordpress.org/latest.tar.gz -O /tmp/wp.tar.gz
   tar -xzf /tmp/wp.tar.gz -C /tmp
   mv /tmp/wordpress/* $WWW_DIR/
+  rm -f /tmp/wp.tar.gz
   chown -R www-data:www-data $WWW_DIR
 fi
 
@@ -62,7 +71,7 @@ if [ -x /usr/local/bin/wp ]; then
     ADMIN_USER=${WORDPRESS_ADMIN_USER}
     ADMIN_PASS=${WORDPRESS_ADMIN_PASSWORD}
     ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
-    SITE_URL=${DOMAIN_NAME}
+    SITE_URL="https://${DOMAIN_NAME}"
     
     wp core install --url="${SITE_URL}" --title="${WP_TITLE:-My WP Site}" --admin_user="${ADMIN_USER}" --admin_password="${ADMIN_PASS}" --admin_email="${ADMIN_EMAIL}" --allow-root
 
@@ -75,4 +84,6 @@ if [ -x /usr/local/bin/wp ]; then
   fi
 fi
 
-exec php-fpm -F
+# Find and run php-fpm
+PHP_FPM=$(which php-fpm || which php-fpm7.4 || which php-fpm8.1 || which php-fpm8.2)
+exec $PHP_FPM -F

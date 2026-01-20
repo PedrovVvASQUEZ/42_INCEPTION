@@ -3,7 +3,7 @@ FROM debian:bullseye
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
- && apt-get install -y php-fpm php-mysql php-xml php-curl php-mbstring mariadb-client wget unzip curl ca-certificates less \
+ && apt-get install -y php-fpm php-mysql php-xml php-curl php-mbstring php-gd mariadb-client wget unzip curl ca-certificates less \
  && rm -rf /var/lib/apt/lists/*
 
 # Install WP-CLI

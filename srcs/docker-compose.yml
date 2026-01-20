@@ -48,6 +48,9 @@ services:
       - "443:443"
     volumes:
       - wp_files:/var/www/html:ro
+      - ./secrets/certs:/etc/ssl/certs:ro
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
 
 volumes:
   db_data:

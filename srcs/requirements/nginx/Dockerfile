@@ -12,4 +12,4 @@ COPY conf/default.conf /etc/nginx/conf.d/default.conf.template
 VOLUME ["/var/www/html"]
 EXPOSE 443
 
-CMD ["sh", "-c", "envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "envsubst '${DOMAIN_NAME}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
