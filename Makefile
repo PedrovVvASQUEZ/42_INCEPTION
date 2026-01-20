@@ -1,4 +1,5 @@
 COMPOSE_FILE=./srcs/docker-compose.yml
+ENV_FILE=./srcs/.env
 DATA_DIR=/home/pgrellie/data
 CERTS_DIR=./srcs/secrets/certs
 SECRETS_DIR=./srcs/secrets
@@ -6,7 +7,7 @@ SECRETS_DIR=./srcs/secrets
 all: up
 
 up: build
-	docker compose -f $(COMPOSE_FILE) up -d
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up -d
 
 certs:
 	@mkdir -p $(CERTS_DIR)
@@ -24,22 +25,24 @@ certs:
 build: certs
 	mkdir -p $(DATA_DIR)/mariadb
 	mkdir -p $(DATA_DIR)/wordpress
-	docker compose -f $(COMPOSE_FILE) build --pull=false
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) build --pull=false
 
 down:
-	docker compose -f $(COMPOSE_FILE) down
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down
 
 re: down up
 
 logs:
-	docker compose -f $(COMPOSE_FILE) logs -f
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) logs -f
 
 clean: down
-	docker compose -f $(COMPOSE_FILE) down -v --remove-orphans
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down -v --remove-orphans
 	sudo rm -rf $(DATA_DIR)/mariadb/*
 	sudo rm -rf $(DATA_DIR)/wordpress/*
 
 fclean: clean
-	docker compose -f $(COMPOSE_FILE) down --rmi all
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down --rmi all
+	rm -rf $(CERTS_DIR)/*
+	rm -rf $(SECRETS_DIR)/conf/*
 
 .PHONY: all build up down re logs clean
