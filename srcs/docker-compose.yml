@@ -8,7 +8,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     env_file:
-      - .env
+      - ../.env
     environment:
       MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
@@ -25,7 +25,7 @@ services:
     volumes:
       - wp_files:/var/www/html
     env_file:
-      - .env
+      - ../.env
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: ${MYSQL_DB}
@@ -53,7 +53,7 @@ services:
       - wp_files:/var/www/html:ro
       - ./secrets/certs:/etc/ssl/certs:ro
     env_file:
-      - .env
+      - ../.env
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
 

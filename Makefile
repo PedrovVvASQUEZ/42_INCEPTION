@@ -1,5 +1,5 @@
 COMPOSE_FILE=./srcs/docker-compose.yml
-ENV_FILE=./srcs/.env
+ENV_FILE=.env
 DATA_DIR=/home/pgrellie/data
 CERTS_DIR=./srcs/secrets/certs
 SECRETS_DIR=./srcs/secrets
@@ -42,7 +42,7 @@ clean: down
 
 fclean: clean
 	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down --rmi all
-	rm -rf $(CERTS_DIR)/*
-	rm -rf $(SECRETS_DIR)/conf/*
+	rm -rf $(CERTS_DIR)
+	rm -rf $(SECRETS_DIR)/conf
 
 .PHONY: all build up down re logs clean

@@ -3,7 +3,6 @@
 _INCEPTION #42_
 
 
-
 Description:
 
 	Inception is a 42 project. The goal is to create a small and secure web infrastructure using Docker, Docker Compose, a Makefile and with persistent data volumes.
@@ -67,9 +66,5 @@ Useful commands:
 - docker kill MyContainer	*Forces a container to stop running*
 - docker run -p				*For port mapping*
 - docker volume ls			*Show named volumes (if nothing appearse it could be bind mounts)*
-
-Différence clé :
-HTML statique : page.html → même contenu pour tout le monde
-PHP dynamique : page.php → contenu différent selon l'utilisateur, la DB, etc.
 
 #Hope this was readable !
