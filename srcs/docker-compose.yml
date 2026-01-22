@@ -7,12 +7,13 @@ services:
       - backend
     volumes:
       - db_data:/var/lib/mysql
+    env_file:
+      - .env
     environment:
       MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
@@ -23,6 +24,8 @@ services:
       - backend
     volumes:
       - wp_files:/var/www/html
+    env_file:
+      - .env
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: ${MYSQL_DB}
@@ -49,6 +52,8 @@ services:
     volumes:
       - wp_files:/var/www/html:ro
       - ./secrets/certs:/etc/ssl/certs:ro
+    env_file:
+      - .env
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
 

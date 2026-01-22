@@ -1,75 +1,75 @@
 *This project has been created as part of the 42 curriculum by <pgrellie>*
 
-_INCEPTION_
+_INCEPTION #42_
+
+
 
 Description:
 
+	Inception is a 42 project. The goal is to create a small and secure web infrastructure using Docker, Docker Compose, a Makefile and with persistent data volumes.
 
 
 Intructions:
 
+	In order to launch Inception you'll first need to create or to copy a saved ".env" file at the root of the project.
+	It contains Values that will be injected into the containers with compose and will be used by the scripts in order to auto configure MariaDB and Wordpress.
+
+	Then enter make in the terminal.
+	Once it's done you can acces WordPress by typing "https://pgrellie.42.fr" in your favorite browser.
 
 
 Resources:
 
 	- To learn Docker	-> "https://dyma.fr/developer/list/chapters/core": complete formation
-						-> "https://www.youtube.com/watch?v=J27puPcFFQo": very useful Youtube video
+						-> "https://www.youtube.com/watch?v=J27puPcFFQo": cool Youtube video to get started
 
 	- To exercise yourself at using Docker -> "https://labex.io/fr/exercises/docker"
+	(I've not checked it yet but it looks very interesting)
 
 	- nginx official doc	-> "https://nginx.org/en/docs/"
 
+	- Some tutorials and useful sites	-> "https://tuto.grademe.fr/inception/img/	docker-compose.png"
+										-> "https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671"
+
+										-> "https://medium.com/@ssterdev/inception-42-project-part-ii-19a06962cf3b"
+
+										-> "https://medium.com/@imyzf/inception-3979046d90a0"
+
+	AI was used to help with the data and simplifying documentation as well for debugging.
 
 
-C'est quoi une image docker ?
+Project Description:
 
-Une image Docker est un modèle immuable qui contient tout le nécessaire pour exécuter une application :
+	3 homemade Docker Images for each nginx, mariadb and wordpress. Containers are created with Docker Compose and all can be orchestrated with the Makefile.
+	The Docker files create the Docker Images. Scripts are used to auto configure the isolated services. The site is HTTPS(443) only. Security Certificates (TLS) are generated and auto-signed.
 
-Code source de l'application
-Dépendances (librairies, packages)
-Système d'exploitation léger (Linux le plus souvent)
-Configuration et variables d'environnement
-Analogie : Une image Docker est comme un "snapshot" ou un modèle d'une machine virtuelle préconfiguré et prêt à l'emploi.
+	A Virtual Machine is a complete OS. It takes space and can be slow.
+	Docker isolate needed processes only. Images are light and quick to lauch.
 
-Points clés :
+	Secrets are managed by Docker. 
+	Env variables are visible in the environnement but less secure.
 
-Réutilisable : Une image crée plusieurs conteneurs (instances en cours d'exécution)
-Portable : Fonctionne partout où Docker est installé (dev, test, production)
-Léger : Beaucoup plus rapide et petit qu'une VM complète
-Créée avec un Dockerfile : Fichier contenant les instructions pour construire l'image
-Relation :
+	Docker network use "bridges". Internal isolated network DNS(Domain Name System) between services. No port conflicts
+	The Host Network shares the host's network stack. So no isolation of services and possible conflicts.
 
-Dockerfile = recette pour créer l'image
-Image = résultat construit (template)
-Conteneur = instance en exécution de l'image (comme une classe vs instance en POO)
-Dans votre projet, vous avez des Dockerfiles pour nginx, WordPress et MariaDB qui vont créer 3 images différentes, chacune lancée comme conteneur via le docker-compose.yml.
+	Docker Volumes are managed by Docker using "docker volume etc", are portable so easy to install, to configure and less related to the host PATH.
+	Bind mounts are explicit PATHS. They are dependant on the local structure.
 
+ 
+Useful commands:
 
-Commandes utiles:
-
-- docker ps -a				*voir tous les containers en cours d'execution sur mon system*
-- docker top MyContainer	*voir les processus en cours d'execution dans un container*
-- docker stats				*voir toutes les infos sur un container*
-- docker stop MyContainer	*arreter proprement un container*
-- docker kill MyContainer	*arret force d'un container*
-- docker run -p				*mapper les ports entre hote et container*
-- docker volume ls			*inspecter les named volumes si rien n'apparait se sont des bind mounts interdits par le sujet*
-
-
-Pour commencer j'ai besoin de savoir a qui sert chaque fichier du projet. Le docker-compose, les docker files les script.sh etc et comment ils sont relier entre avec leurs rôles
-
-
-Analogie :
-Dockerfile = recette de cuisine (comment préparer)
-Script .sh = cuisinier qui adapte selon les ingrédients disponibles (personnalisation)
-En résumé : Les .sh permettent de configurer dynamiquement les services avec les bonnes credentials/paramètres au moment du démarrage, pas à la compilation de l'image.
-
-Résumé parfait :
-
-Dockerfile = "Installe MySQL"
-Script .sh = "Configure MySQL avec tel user, telle DB, tel mot de passe"
-
+- docker ps -a				*Show all running containers*
+- docker top MyContainer	*Show processes running inside a container*
+- docker stats				*Show stats about a container*
+									ou
+- docker stats --no-stream
+- docker stop MyContainer	*Cleanely stop a container*
+- docker kill MyContainer	*Forces a container to stop running*
+- docker run -p				*For port mapping*
+- docker volume ls			*Show named volumes (if nothing appearse it could be bind mounts)*
 
 Différence clé :
 HTML statique : page.html → même contenu pour tout le monde
 PHP dynamique : page.php → contenu différent selon l'utilisateur, la DB, etc.
+
+#Hope this was readable !

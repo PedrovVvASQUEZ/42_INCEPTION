@@ -7,9 +7,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+
 COPY conf/default.conf /etc/nginx/conf.d/default.conf.template
 
 VOLUME ["/var/www/html"]
+
 EXPOSE 443
 
 CMD ["sh", "-c", "envsubst '${DOMAIN_NAME}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
