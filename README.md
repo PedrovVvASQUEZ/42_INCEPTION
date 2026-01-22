@@ -66,5 +66,6 @@ Useful commands:
 - docker kill MyContainer	*Forces a container to stop running*
 - docker run -p				*For port mapping*
 - docker volume ls			*Show named volumes (if nothing appearse it could be bind mounts)*
+- docker network ls			*Show the networks*
 
 #Hope this was readable !
