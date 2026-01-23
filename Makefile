@@ -1,8 +1,7 @@
 COMPOSE_FILE=./srcs/docker-compose.yml
-ENV_FILE=.env
+ENV_FILE=./srcs/.env
 DATA_DIR=/home/pgrellie/data
-CERTS_DIR=./srcs/secrets/certs
-SECRETS_DIR=./srcs/secrets
+CERTS_DIR=./secrets/certs
 
 all: up
 
@@ -11,7 +10,6 @@ up: build
 
 certs:
 	@mkdir -p $(CERTS_DIR)
-	@mkdir -p $(SECRETS_DIR)/conf
 	@if [ ! -f $(CERTS_DIR)/privkey.pem ] || [ ! -f $(CERTS_DIR)/fullchain.pem ]; then \
 		echo "Generating SSL certificates..."; \
 		openssl req -x509 -newkey rsa:4096 -keyout $(CERTS_DIR)/privkey.pem \
@@ -23,8 +21,8 @@ certs:
 	fi
 
 build: certs
-	mkdir -p $(DATA_DIR)/mariadb
-	mkdir -p $(DATA_DIR)/wordpress
+	# mkdir -p $(DATA_DIR)/mariadb
+	# mkdir -p $(DATA_DIR)/wordpress
 	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) build --pull=false
 
 down:
@@ -37,12 +35,11 @@ logs:
 
 clean: down
 	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down -v --remove-orphans
-	sudo rm -rf $(DATA_DIR)/mariadb/*
-	sudo rm -rf $(DATA_DIR)/wordpress/*
+	# sudo rm -rf $(DATA_DIR)/mariadb/*
+	# sudo rm -rf $(DATA_DIR)/wordpress/*
 
 fclean: clean
 	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down --rmi all
 	rm -rf $(CERTS_DIR)
-	rm -rf $(SECRETS_DIR)/conf
 
-.PHONY: all build up down re logs clean
+.PHONY: all build up down re logs clean fclean certs

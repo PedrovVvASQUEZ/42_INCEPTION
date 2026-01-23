@@ -45,14 +45,14 @@ Project Description:
 	A Virtual Machine is a complete OS. It takes space and can be slow.
 	Docker isolate needed processes only. Images are light and quick to lauch.
 
-	Secrets are managed by Docker. 
-	Env variables are visible in the environnement but less secure.
+	Secrets are read-only file mounted inside the containers. Vules don't go through env variables and stay out of logs. Ideal for key passwords.
+	Env variables are injected by docker-compose amd visible in logs and docker inspect. Ideal for non sensible data.
 
 	Docker network use "bridges". Internal isolated network DNS(Domain Name System) between services. No port conflicts
 	The Host Network shares the host's network stack. So no isolation of services and possible conflicts.
 
 	Docker Volumes are managed by Docker using "docker volume etc", are portable so easy to install, to configure and less related to the host PATH.
-	Bind mounts are explicit PATHS. They are dependant on the local structure.
+	Bind mounts are explicit PATHS. They are dependant on the local structure and shared with the containers.
 
  
 Useful commands:
@@ -66,6 +66,8 @@ Useful commands:
 - docker kill MyContainer	*Forces a container to stop running*
 - docker run -p				*For port mapping*
 - docker volume ls			*Show named volumes (if nothing appearse it could be bind mounts)*
-- docker network ls			*Show the networks*
+- docker images				*View Images*
+
+Acced to user1 "https://pgrellie.42.fr/wp-user1.php"
 
 #Hope this was readable !
