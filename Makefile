@@ -34,7 +34,7 @@ logs:
 	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) logs -f
 
 clean: down
-	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down -v --remove-orphans
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) down -v
 # 	sudo rm -rf $(DATA_DIR)/mariadb/*
 # 	sudo rm -rf $(DATA_DIR)/wordpress/*
 
